@@ -56,6 +56,7 @@ products.forEach(product => {
 let productsGrid = document.querySelector('.products-grid');
 productsGrid.innerHTML = productHtml;
 
+
 let addToCartButtons = document.querySelectorAll('.js-add-to-cart');
 addToCartButtons.forEach((button)=>
 {
@@ -79,7 +80,11 @@ addToCartButtons.forEach((button)=>
                 quantity: parseInt(button.parentElement.querySelector('select').value)
             })
         }
-        console.log(cart);
+        let cartQuantity = 0;
+        cart.forEach((item)=>{
+            cartQuantity += item.quantity;
+        });
+        document.querySelector('.cart-quantity').innerText = cartQuantity;
     })
 });
 
