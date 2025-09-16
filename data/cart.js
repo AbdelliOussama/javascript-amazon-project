@@ -1,6 +1,16 @@
-const cart = [];
+export const cart = [
+    {
+        productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+        quantity: 2
+    },
+    {
+        productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+        quantity: 1
+    }
+];
 
-export {cart};
+
+
 
 // The code below is for adding items to the cart and updating the cart quantity display.
 // It would typically be found in a file like scripts/amazon.js
