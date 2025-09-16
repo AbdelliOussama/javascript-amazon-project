@@ -1,3 +1,4 @@
+import { cart } from "../data/cart.js";    
 // Generate products grid
 
 let productHtml = ``;
@@ -85,6 +86,12 @@ addToCartButtons.forEach((button)=>
             cartQuantity += item.quantity;
         });
         document.querySelector('.cart-quantity').innerText = cartQuantity;
+
+        let addedToCart = button.parentElement.querySelector('.added-to-cart');
+        addedToCart.classList.add('js-added-to-cart');
+        setTimeout(()=>{
+            addedToCart.classList.remove('js-added-to-cart');
+        },1000)
     })
 });
 
