@@ -1,4 +1,4 @@
-import { cart ,addToCart} from "../data/cart.js";
+import { cart ,addToCart,updateCartQuantity as update} from "../data/cart.js";
 import { products } from "../data/products.js";
 import {formatCurrency} from "../scripts/utils/money.js";
 // Generate products grid
@@ -85,3 +85,4 @@ addToCartButtons.forEach((button)=>
     })
 });
 
+document.querySelector('.js-cart-quantity').innerText = update();
