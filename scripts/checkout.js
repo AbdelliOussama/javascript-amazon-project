@@ -1,4 +1,4 @@
-import {cart, removeFromCart,updateCartQuantity,updateQuantity} from '../data/cart.js';
+import {cart, removeFromCart,updateCartQuantity,updateQuantity,updateDeliveryOption} from '../data/cart.js';
 import {products} from '../data/products.js';
 import {formatCurrency} from './utils/money.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js'   ;
@@ -76,8 +76,8 @@ function deliveryOptionsHTML(cartItem, matchingProduct) {
     deliveryOptions.forEach((deliveryOption) => {
         const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
         deliveryOptionsHTML += `
-            <div class="delivery-option">
-                <input type="radio" ${isChecked ? 'checked' : ''}  class="delivery-option-input" name="delivery-option-${matchingProduct.id}">
+            <div class="delivery-option js-delivery-options" data-product-id="${matchingProduct.id}" data-delivery-option-id="${deliveryOption.id}">
+                <input type="radio" ${isChecked ? 'checked' : ''}  class="delivery-option-input " name="delivery-option-${matchingProduct.id}">
                 <div>
                     <div class="delivery-option-date">
                         ${dayjs().add(deliveryOption.deliveryDays, 'day').format('dddd, MMMM D')}
@@ -161,5 +161,14 @@ document.querySelectorAll('.quantity-input')
             let cartQuantityElement = document.querySelector('.js-checkout-header-middle-section');
             cartQuantityElement.innerText = `${updateCartQuantity()} items`;
         }
+    });
+});
+
+document.querySelectorAll('.js-delivery-options')
+.forEach(option => {
+    option.addEventListener('click', () => {
+        const productId = option.dataset.productId;
+        const newDeliveryOptionId = option.dataset.deliveryOptionId;
+        updateDeliveryOption(productId, newDeliveryOptionId);
     });
 });
