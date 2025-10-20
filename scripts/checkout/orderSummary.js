@@ -1,10 +1,10 @@
-import {cart, removeFromCart,updateCartQuantity,updateQuantity,updateDeliveryOption} from '../../data/cart.js';
+import {cart, removeFromCart,updateQuantity,updateDeliveryOption} from '../../data/cart.js';
 import {products,getProductById} from '../../data/products.js';
 import {formatCurrency} from '.././utils/money.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js'   ;
-import { deliveryOptions ,getDeliveryOptionById} from '../../data/deliveryOptions.js';
+import { deliveryOptions ,getDeliveryOptionById,calculateDeliveryDate} from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
-
+import { renderCheckoutHeader } from './checkoutHeader.js';
 
 export function renderCartSummary(){
     let cartSummaryHTML = '';
@@ -14,9 +14,7 @@ export function renderCartSummary(){
         let matchingProduct = getProductById(productId);
         const deliveryOptionsId = cartItem.deliveryOptionId;
         let deliveryOption = getDeliveryOptionById(deliveryOptionsId);
-        let toDay = dayjs();
-        let deliveryDate = toDay.add(deliveryOption.deliveryDays, 'day');
-        const deliveryDateString = deliveryDate.format('dddd, MMMM D');
+        const deliveryDateString = calculateDeliveryDate(deliveryOption);
 
         cartSummaryHTML += `
             <div class="cart-item-container
@@ -97,8 +95,7 @@ export function renderCartSummary(){
         });
     });
 
-    let cartQuantityElement = document.querySelector('.js-checkout-header-middle-section');
-    cartQuantityElement.innerText = `${updateCartQuantity()} items`;
+    renderCheckoutHeader();
 
     document.querySelectorAll('.js-update-link')
     .forEach((link) => {
@@ -127,8 +124,7 @@ export function renderCartSummary(){
             {
                 alert('Please enter a quantity between 1 and 1000');
             }
-            let cartQuantityElement = document.querySelector('.js-checkout-header-middle-section');
-            cartQuantityElement.innerText = `${updateCartQuantity()} items`;
+            renderCheckoutHeader();
         });
     });
 
@@ -148,8 +144,7 @@ export function renderCartSummary(){
                 {
                     alert('Please enter a quantity between 1 and 1000');
                 }
-                let cartQuantityElement = document.querySelector('.js-checkout-header-middle-section');
-                cartQuantityElement.innerText = `${updateCartQuantity()} items`;
+                renderCheckoutHeader();
             }
         });
     });
