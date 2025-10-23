@@ -16,4 +16,11 @@ describe(' test suits: formatCurrency', () => {
     it('should convert negative amount of cents to dollars', () => {
         expect(formatCurrency(-500)).toEqual('-5.00');
     });
+    it('should rounds down to nearest cent', () => {
+        expect(formatCurrency(2000.4)).toEqual('20.00');
+    });
+
+    it('should rounds up to nearest cent', () => {
+        expect(formatCurrency(199.5)).toEqual('2.00');
+    });
 });
