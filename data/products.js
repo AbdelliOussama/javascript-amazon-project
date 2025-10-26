@@ -21,7 +21,30 @@ class Product {
   getPrice(){
     return ` $${formatCurrency(this.priceCents)}`
   };
+
+  extractHTMLInfo(){
+    return '';
+  }
 }
+
+class Clothing extends Product {
+  type ;
+  sizeChartLink ;
+  constructor(productDetails) {
+    super(productDetails);
+    this.type = productDetails.type;
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
+
+  extractHTMLInfo(){
+    return `
+        <a href="${this.sizeChartLink}" target="_blank">
+          Size Chart
+        </a>
+    `;
+  }
+}
+
 export function getProductById(productId) {
   return products.find((product) => product.id === productId);
 }
@@ -686,6 +709,9 @@ const products = [
     ]
   }
 ].map(productDetails =>{
+  if(productDetails.type === "clothing"){
+    return new Clothing(productDetails);
+  }
   return new Product(productDetails);
 });
 
