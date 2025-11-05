@@ -73,6 +73,31 @@ export function getProductById(productId) {
 }
 
 let products = [];
+
+export function loadProductsFetch(){
+  const promise = fetch("https://supersimplebackend.dev/products")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to load products data:", response.statusText);
+      }
+      return response.json();
+    }).then((productsData) => {
+      products = productsData.map(productDetails =>{
+        if(productDetails.type === "clothing"){
+          return new Clothing(productDetails);
+        }
+        if(productDetails.type === "appliances"){
+          return new Appliances(productDetails);
+        }
+        return new Product(productDetails);
+      });
+    }).catch((error) => {
+      console.error(error);
+    });
+  return promise;
+}
+
+
 export function loadProducts(fun){
   const xhr = new XMLHttpRequest();
 
